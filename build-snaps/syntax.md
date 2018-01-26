@@ -31,6 +31,13 @@ By convention at the top of the file, the following keys are consumed by the sto
   <li style="margin-bottom: 0;"><a href="#architectures"><code>architectures</code></a></li>
 </ul>
 
+Alternatively, you can extract the values for some of these keys from
+<a href="/build-snaps/other-metadata">other metadata sources</a>, using:
+
+<ul>
+  <li style="margin-bottom: 0;"><a href="#adopt-info"><code>adopt-info</code></a></li>
+</ul>
+
 ## Top-level YAML subsections
 
 ### Apps and daemons
@@ -56,6 +63,7 @@ The "`apps`" YAML subsection exposes apps and daemons from your package to the h
               <li style="margin-bottom: 0;"><a href="#socket-mode"><code>socket-mode</code></a></li>
             </ul>
           </li>
+          <li style="margin-bottom: 0;"><a href="#common-id"><code>common-id</code></a></li>
         </ul>
       </li>
     </ul>
@@ -92,6 +100,7 @@ The "`parts`" YAML subsection declares individual pieces of code to be imported 
           <li style="margin-bottom: 0;"><a href="#build"><code>build</code></a></li>
           <li style="margin-bottom: 0;"><a href="#install"><code>install</code></a></li>
           <li style="margin-bottom: 0;"><a href="#build-attributes"><code>build-attributes</code></a></li>
+          <li style="margin-bottom: 0;"><a href="#parse-info"><code>parse-info</code></a></li>
         </ul>
       </li>
     </ul>
@@ -206,6 +215,14 @@ upgrade paths. For example, `0` is epoch 0; `1*` is the upgrade path from 0 to
 The architectures on which this snap runs. This defaults to the host architecture unless `--target-arch` is specified, in which case it defaults to the target architecture. One may specify multiple architectures if that's supported (for example, a 32-bit snap might run on both i386 and amd64 using `[amd64, i386]`, or a snap that is shell-only might run on all architectures, using `all`).
 
 * Type: list of strings
+
+### adopt-info
+
+The name of a part that provides metadata information for the snap.
+
+* Type: string
+
+* [Examples](/build-snaps/other-metadata#metadata-sources)
 
 ### apps
 
@@ -391,6 +408,13 @@ For Unix sockets, the file permission (e.g. `0644`).
           sockets:
             listen-stream: $SNAP_DATA/foo_data
             socket-mode: 0644
+
+### common-id
+
+An identifier for the app, common across multiple packaging formats.
+
+* Type: string
+* [Examples](/build-snaps/other-metadata#metadata-sources)
 
 ### parts
 
@@ -949,6 +973,13 @@ A list of special attributes that affect the build of this specific part:
         foo:
           plugin: kbuild
           build-attributes: [debug, no-system-libraries]
+
+### parse-info
+
+A list of file paths that provide metadata information for the snap.
+
+* Type: list
+* [Examples](/build-snaps/other-metadata#metadata-sources)
 
 ## Advanced grammar
 
