@@ -36,12 +36,12 @@ for metadata of software components. It can provide the `summary`,
 apps.
 
 Let's say we have an upstream project with the following appstream file in
-`my-app.metainfo.xml`:
+`sampleapp.metainfo.xml`:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<component>
-  <id>com.example.my-app</id>
+<component type="desktop-application">
+  <id>com.example.sampleapp</id>
   <summary>Single-line elevator pitch for your amazing application</summary>
   <description>
     This is applications's description. A paragraph or two to tell the
@@ -49,7 +49,7 @@ Let's say we have an upstream project with the following appstream file in
   </description>
   <icon type="local">assets/icon.png</icon>
   <launchable type="desktop-id">
-    com.example.my-app.desktop
+    com.example.sampleapp.desktop
   </launchable>
 </component>
 ```
@@ -58,19 +58,19 @@ Let's say we have an upstream project with the following appstream file in
 Then you can adopt this info into your `snapcraft.yaml` like this:
 
 ```yaml
-name: my-snap-name
-adopt-info: my-app
+name: sampleapp-name
+adopt-info: sampleapp
 
 apps:
-  my-app:
-    command: my-app
-    common-id: com.example.my-app
+  sampleapp:
+    command: sampleapp
+    common-id: com.example.sampleapp
 
 parts:
-  my-app:
+  sampleapp:
     plugin: dump
-    source: http://github.com/example/my-app.git
-    parse-info: [my-app.metainfo.xml]
+    source: http://github.com/example/sampleapp.git
+    parse-info: [sampleapp.metainfo.xml]
 ```
 <br>
 
@@ -78,9 +78,10 @@ The resulting snap will take the summary and description from the appstream
 file and it will use the referred icon and desktop files.
 
 Note that appstream doesn't use a path to declare the desktop file. It uses
-a [Desktop File ID](https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#desktop-file-id). To know which appstream
-`desktop-id` corresponds to your app, you must declare the `common-id` of the
-app in the `snapcraft.yaml`. snapcraft will search for a parsed appstream file
-with the same `id` and extract the `desktop-id`. Then it will search for the
-desktop file in the directories  `usr/local/share` and `usr/share` relative to
-the part source, following the Desktop File ID rules.
+a [Desktop File ID](https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#desktop-file-id).
+To know which appstream `desktop-id` corresponds to your app, you must declare
+the `common-id` of the app in the `snapcraft.yaml`. snapcraft will search for a
+parsed appstream file with the same component `id` and extract the `desktop-id`.
+Then it will search for the desktop file in the directories  `usr/local/share`
+and `usr/share` relative to the part source, following the Desktop File ID
+rules.
